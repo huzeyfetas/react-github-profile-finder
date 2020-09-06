@@ -38,29 +38,23 @@ class User extends Component {
 			following,
 		} = this.props.user;
 		return (
-			<div>
-				<div className="card m-2">
-					<div className="row">
-						<div className="col-md-3">
-							<img src={avatar_url} alt="profil_resmi" className="card-img" />
-						</div>
-						<div className="col-md-9">
-							<div className="card-body">
-								<h5>User name: {login}</h5>
-								<h6>Name: {name}</h6>
-								<h6>Bio: {bio}</h6>
-								<p>
-									Followers: {followers} / Following: {following}
-								</p>
-								<a href={html_url} className="btn btn-dark btn-sm mr-2">
-									<i className={this.props.icon}></i>
-									Github Profile
-								</a>
-								<a href={url} className="btn btn-warning btn-sm">
-									Api Detay
-								</a>
-							</div>
-						</div>
+			<div className="col-md-4 col-sm-6 col-lg-3">
+				<div className="card mb-3">
+					<img src={avatar_url} alt="profil_resmi" className="img-fluid" />
+					<div className="card-body">
+						<h5>User name: {login}</h5>
+						<h6>Name: {name}</h6>
+						<h6>Bio: {bio}</h6>
+						<p>
+							Followers: {followers} / Following: {following}
+						</p>
+						<a href={html_url} className="btn btn-dark btn-sm mr-2">
+							<i className={this.props.icon}></i>
+							Github Profile
+						</a>
+						<a href={url} className="btn btn-warning btn-sm">
+							Api Detay
+						</a>
 					</div>
 				</div>
 			</div>
