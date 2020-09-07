@@ -43,6 +43,7 @@ class User extends Component {
 					<img src={avatar_url} alt="profil_resmi" className="img-fluid" />
 					<div className="card-body">
 						<h5>User name: {login}</h5>
+						<hr />
 						<h6>Name: {name}</h6>
 						<h6>Bio: {bio}</h6>
 						<p>
