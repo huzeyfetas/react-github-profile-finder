@@ -9,27 +9,32 @@ export class App extends Component {
 		super(props);
 		this.state = {
 			users: [],
+			loading: false,
 		};
 	}
 	componentDidMount() {
-		axios
-			.get("https://api.github.com/users")
-			.then((res) => {
-				// console.log(res);
-				// console.log(res.data);
-				this.setState({
-					users: res.data,
+		this.setState({ loading: true });
+		setTimeout(() => {
+			axios
+				.get("https://api.github.com/users")
+				.then((res) => {
+					console.log(res);
+					console.log(res.data);
+					this.setState({
+						users: res.data,
+						loading: false,
+					});
+				})
+				.catch((err) => {
+					console.log(err);
 				});
-			})
-			.catch((err) => {
-				console.log(err);
-			});
+		}, 1000);
 	}
 	render() {
 		return (
 			<>
 				<Navbar />
-				<Users users={this.state.users} />
+				<Users loading={this.state.loading} users={this.state.users} />
 			</>
 		);
 	}
