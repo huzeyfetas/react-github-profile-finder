@@ -18,6 +18,16 @@ export class Search extends Component {
 
 	formOnSubmit(event) {
 		event.preventDefault();
+		let word = this.state.keyword;
+		word = word.trim();
+		if (word === "") {
+			this.props.setAlert(
+				"Search box is empty.Are you sure you are searching right? If you are seeing this error message right now, either you or we are doing something wrong. If you are sure ,be cool, I think we did something wrong.",
+				"warning",
+			);
+			return;
+		}
+
 		this.props.searchUser(this.state.keyword);
 		this.setState({
 			keyword: "",
@@ -42,6 +52,14 @@ export class Search extends Component {
 						</div>
 					</div>
 				</form>
+				{this.props.isShow && (
+					<button
+						onClick={this.props.clearResults}
+						className="btn btn-md btn-danger btn-block mt-2"
+					>
+						Clear Results
+					</button>
+				)}
 			</div>
 		);
 	}
