@@ -1,14 +1,16 @@
 import React, { Component } from "react";
 import Loading from "./Loading";
+import Repos from "./Repos";
 
 export class UserDetail extends Component {
 	componentDidMount() {
 		this.props.getUser(this.props.match.params.login);
-		console.log(this.props);
+		this.props.getUserRepos(this.props.match.params.login);
+		// console.log(this.props);
 	}
 
 	render() {
-		const { loading } = this.props;
+		const { loading, repos } = this.props;
 
 		const {
 			id,
@@ -33,7 +35,7 @@ export class UserDetail extends Component {
 			return <Loading />;
 		}
 		return (
-			<div className="container mt-3">
+			<div className="container my-3">
 				<div className="row">
 					<div className="col-md-3">
 						<div className="card">
@@ -42,7 +44,7 @@ export class UserDetail extends Component {
 								<p className="card-text">{name}</p>
 								<p>
 									<i className="fas fa-map-marker-alt"></i>
-									{location}
+									{location ? location : " Location is not yet defined"}
 								</p>
 								<p>
 									<a
@@ -82,6 +84,9 @@ export class UserDetail extends Component {
 									</span>
 								</div>
 							</div>
+							<ul className="list-group list-group-flush">
+								<Repos repos={repos} />
+							</ul>
 						</div>
 					</div>
 				</div>

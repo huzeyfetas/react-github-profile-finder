@@ -16,12 +16,14 @@ export class App extends Component {
 		this.clearResults = this.clearResults.bind(this);
 		this.setAlert = this.setAlert.bind(this);
 		this.getUser = this.getUser.bind(this);
+		this.getUserRepos = this.getUserRepos.bind(this);
 
 		this.state = {
 			users: [],
 			loading: false,
 			alert: null,
 			user: {},
+			repos: [],
 		};
 	}
 
@@ -135,6 +137,24 @@ export class App extends Component {
 				});
 		}, 1000);
 	}
+
+	getUserRepos(username) {
+		this.setState({ loading: true });
+		setTimeout(() => {
+			axios
+				.get(`https://api.github.com/users/${username}/repos`)
+				.then((res) =>
+					this.setState({
+						repos: res.data,
+						loading: false,
+					}),
+				)
+				.catch((error) => {
+					console.log("error", error);
+				});
+		}, 1000);
+	}
+
 	componentDidUpdate() {
 		console.log("this.state.user !!!", this.state.user);
 	}
@@ -185,8 +205,10 @@ export class App extends Component {
 								<UserDetail
 									{...props}
 									user={this.state.user}
-									getUser={this.getUser}
 									loading={this.state.loading}
+									repos={this.state.repos}
+									getUser={this.getUser}
+									getUserRepos={this.getUserRepos}
 								/>
 							</>
 						)}
