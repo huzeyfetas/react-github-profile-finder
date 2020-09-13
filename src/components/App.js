@@ -4,7 +4,10 @@ import Users from "./Users";
 import User from "./User";
 import Search from "./Search";
 import Alert from "./Alert";
+import About from "./About";
+import UserDetail from "./UserDetail";
 import axios from "axios";
+import { BrowserRouter, Route, Link, NavLink, Switch } from "react-router-dom";
 
 export class App extends Component {
 	constructor(props) {
@@ -12,11 +15,13 @@ export class App extends Component {
 		this.searchUser = this.searchUser.bind(this);
 		this.clearResults = this.clearResults.bind(this);
 		this.setAlert = this.setAlert.bind(this);
+		this.getUser = this.getUser.bind(this);
 
 		this.state = {
 			users: [],
 			loading: false,
 			alert: null,
+			user: {},
 		};
 	}
 
@@ -114,6 +119,26 @@ export class App extends Component {
 		}, 1000);
 	}
 
+	getUser(username) {
+		this.setState({ loading: true });
+		setTimeout(() => {
+			axios
+				.get(`https://api.github.com/users/${username}`)
+				.then((res) =>
+					this.setState({
+						user: res.data,
+						loading: false,
+					}),
+				)
+				.catch((error) => {
+					console.log("error", error);
+				});
+		}, 1000);
+	}
+	componentDidUpdate() {
+		console.log("this.state.user !!!", this.state.user);
+	}
+
 	clearResults() {
 		this.setState({ users: [] });
 	}
@@ -132,17 +157,42 @@ export class App extends Component {
 
 	render() {
 		return (
-			<>
+			<BrowserRouter>
 				<Navbar />
-				<Search
-					searchUser={this.searchUser}
-					clearResults={this.clearResults}
-					isShow={this.state.users.length > 0}
-					setAlert={this.setAlert}
-				></Search>
 				<Alert alert={this.state.alert} />
-				<Users loading={this.state.loading} users={this.state.users} />
-			</>
+
+				<Switch>
+					<Route
+						exact
+						path="/"
+						render={(props) => (
+							<>
+								<Search
+									searchUser={this.searchUser}
+									clearResults={this.clearResults}
+									isShow={this.state.users.length > 0}
+									setAlert={this.setAlert}
+								/>
+								<Users loading={this.state.loading} users={this.state.users} />
+							</>
+						)}
+					/>
+					<Route path="/about" component={About} />
+					<Route
+						path="/user/:login"
+						render={(props) => (
+							<>
+								<UserDetail
+									{...props}
+									user={this.state.user}
+									getUser={this.getUser}
+									loading={this.state.loading}
+								/>
+							</>
+						)}
+					/>
+				</Switch>
+			</BrowserRouter>
 		);
 	}
 }

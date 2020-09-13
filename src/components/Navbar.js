@@ -1,16 +1,26 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 
 export class Navbar extends Component {
 	render() {
 		return (
 			<div>
-				<nav className="navbar navbar-dark bg-dark">
+				<nav className="navbar navbar-dark bg-dark navbar-expand-sm">
 					<div className="container">
-						<a href="#" className="navbar-brand">
+						<Link to="/" className="navbar-brand">
 							<i className={this.props.icon}></i>
 							{this.props.title}
-						</a>
+						</Link>
+						<div className="collapse navbar-collapse">
+							<ul className="navbar-nav ml-auto">
+								<li className="nav-item">
+									<Link className="nav-link " to="about">
+										About
+									</Link>
+								</li>
+							</ul>
+						</div>
 					</div>
 				</nav>
 			</div>
